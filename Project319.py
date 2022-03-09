@@ -4,7 +4,7 @@ import numpy as np
 
 # read array
 
-file = r'C:\Users\Adity\Downloads\X_train.npy'
+file = r'C:\Users\Adity\Downloads\X_test.npy'
 a = np.load(file, mmap_mode=None, allow_pickle=False, fix_imports=True, encoding='ASCII')
 
 a_transposed = np.transpose(a[0])
@@ -12,10 +12,10 @@ a_transposed = np.transpose(a[0])
 #now lets prepare something for O/P
 
 out = np.empty(shape = [6,155])
-Final_out = np.empty(shape = [15600,155,6])
+Final_out = np.empty(shape = [5850,155,6])
 
 #process the data
-for y in range(15600):
+for y in range(5850):
     for x in range(6):
         # plot raw data after taking average of 6 elements of a row for 155 rows
 
@@ -28,7 +28,7 @@ for y in range(15600):
 
         # apply filter (sampling frequency is upto 2hz, we're interested in up to 0.4hz where power is concentrated, hence value of wc = 0.5/2 = 0.25)
 
-        sos = signal.butter(10, 0.25, 'lp', output='sos')
+        sos = signal.butter(10, 0.12903225806, 'lp', output='sos')
         filtered = signal.sosfilt(sos, sig)
         #ax2.plot(t, filtered)
         #ax2.set_title('After 2hz hp filter with sampling frequency =1000hz')
@@ -53,4 +53,4 @@ for y in range(15600):
     Final_out[y] = op
     #print(Final_out[0])
     
-np.save("X_Train_Processed.npy",Final_out)
+np.save("X_Test_Processed.npy",Final_out)
